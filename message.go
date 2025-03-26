@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // System message flags, defined in RFC 3501 section 2.3.2.
@@ -232,6 +234,8 @@ func (m *Message) Parse(fields []interface{}) error {
 					return err
 				}
 			case FetchEnvelope:
+				fmt.Println("PARSING THAT ENVELOPE")
+				spew.Dump(f)
 				env, ok := f.([]interface{})
 				if !ok {
 					return fmt.Errorf("cannot parse message: ENVELOPE is not a list, but a %T", f)
