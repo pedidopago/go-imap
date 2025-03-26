@@ -15,6 +15,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/emersion/go-imap"
 	"github.com/emersion/go-imap/commands"
 	"github.com/emersion/go-imap/responses"
@@ -248,6 +249,7 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 			} else {
 				if err != nil {
 					fmt.Println("[meh][oO] err ERROR HANDLING RESPONSE: " + err.Error())
+					spew.Dump(resp)
 				}
 				return err
 			}
