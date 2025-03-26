@@ -216,6 +216,8 @@ func (m *Message) Parse(fields []interface{}) error {
 			case RawString:
 				k = FetchItem(strings.ToUpper(string(f)))
 			default:
+				fmt.Printf("FETCH KEY IS NOT A STRING, BUT A %T\n", f)
+				spew.Dump(f)
 				return fmt.Errorf("cannot parse message: key is not a string, but a %T", f)
 			}
 		} else { // It's a value
@@ -226,11 +228,14 @@ func (m *Message) Parse(fields []interface{}) error {
 			case FetchBody, FetchBodyStructure:
 				bs, ok := f.([]interface{})
 				if !ok {
+					fmt.Printf("FETCH BODY IS NOT A LIST, BUT A %T\n", f)
 					return fmt.Errorf("cannot parse message: BODYSTRUCTURE is not a list, but a %T", f)
 				}
 
 				m.BodyStructure = &BodyStructure{Extended: k == FetchBodyStructure}
 				if err := m.BodyStructure.Parse(bs); err != nil {
+					fmt.Println("ERROR PARSING THAT BODYSTRUCTURE: " + err.Error())
+					spew.Dump(bs)
 					return err
 				}
 			case FetchEnvelope:
@@ -238,16 +243,20 @@ func (m *Message) Parse(fields []interface{}) error {
 				spew.Dump(f)
 				env, ok := f.([]interface{})
 				if !ok {
+					fmt.Printf("FETCH ENVELOPE IS NOT A LIST, BUT A %T\n", f)
 					return fmt.Errorf("cannot parse message: ENVELOPE is not a list, but a %T", f)
 				}
 
 				m.Envelope = &Envelope{}
 				if err := m.Envelope.Parse(env); err != nil {
+					fmt.Println("ERROR PARSING THAT ENVELOPE: " + err.Error())
+					spew.Dump(env)
 					return err
 				}
 			case FetchFlags:
 				flags, ok := f.([]interface{})
 				if !ok {
+					fmt.Printf("FETCH FLAGS IS NOT A LIST, BUT A %T\n", f)
 					return fmt.Errorf("cannot parse message: FLAGS is not a list, but a %T", f)
 				}
 
