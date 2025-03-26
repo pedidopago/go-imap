@@ -246,7 +246,9 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 				doneHandle <- handleResult{nil, err}
 				return errUnregisterHandler
 			} else {
-				fmt.Println("[meh][oO] err ERROR HANDLING RESPONSE: " + err.Error())
+				if err != nil {
+					fmt.Println("[meh][oO] err ERROR HANDLING RESPONSE: " + err.Error())
+				}
 				return err
 			}
 		}
