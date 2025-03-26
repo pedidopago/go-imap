@@ -392,6 +392,7 @@ func (c *Client) handleUnilateral() {
 					c.Updates <- &StatusUpdate{resp}
 				}
 			default:
+				fmt.Println("[meh][oO] UNHANDLED STATUS RESPONSE: " + resp.Type)
 				return responses.ErrUnhandled
 			}
 		case *imap.DataResp:
@@ -451,6 +452,7 @@ func (c *Client) handleUnilateral() {
 
 				msg := &imap.Message{SeqNum: seqNum}
 				if err := msg.Parse(fields); err != nil {
+					fmt.Println("[meh][oO] SMTPCLIENT ERROR PARSING FETCH: " + err.Error())
 					break
 				}
 
@@ -458,6 +460,7 @@ func (c *Client) handleUnilateral() {
 					c.Updates <- &MessageUpdate{msg}
 				}
 			default:
+				fmt.Println("[meh][oO] UNHANDLED FETCH RESPONSE: " + name)
 				return responses.ErrUnhandled
 			}
 		default:

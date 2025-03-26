@@ -275,7 +275,7 @@ func (m *Message) Parse(fields []interface{}) error {
 				m.Uid, _ = ParseNumber(f)
 			default:
 				fmt.Println("[meh][oO] UNKNOWN FETCH FIELD: " + k)
-				spew.Dump(f)
+				// spew.Dump(f)
 				// Likely to be a section of the body
 				// First check that the section name is correct
 				if section, err := ParseBodySectionName(k); err != nil {
