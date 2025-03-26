@@ -2,7 +2,9 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/emersion/go-imap"
 	"github.com/emersion/go-imap/commands"
 	"github.com/emersion/go-imap/responses"
@@ -169,6 +171,10 @@ func (c *Client) fetch(uid bool, seqset *imap.SeqSet, items []imap.FetchItem, ch
 	if err != nil {
 		return err
 	}
+
+	fmt.Println("WILL DUMP THE FETCH STATUS")
+	spew.Dump(status)
+
 	return status.Err()
 }
 
