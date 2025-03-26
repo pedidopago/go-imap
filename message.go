@@ -254,6 +254,7 @@ func (m *Message) Parse(fields []interface{}) error {
 				}
 			case FetchInternalDate:
 				date, _ := f.(string)
+				fmt.Println("PARSING THAT INTERNAL DATE: " + date)
 				m.InternalDate, _ = time.Parse(DateTimeLayout, date)
 			case FetchRFC822Size:
 				m.Size, _ = ParseNumber(f)
