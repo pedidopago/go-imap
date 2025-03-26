@@ -187,8 +187,6 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 	cmd := cmdr.Command()
 	cmd.Tag = generateTag()
 
-	fmt.Println("cmd.Tag = generateTag() " + cmd.Tag)
-
 	var replies <-chan []byte
 	if replier, ok := h.(responses.Replier); ok {
 		replies = replier.Replies()
@@ -244,12 +242,15 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 			// Pass the response to the response handler
 			if err := h.Handle(resp); err != nil && err != responses.ErrUnhandled {
 				// If the response handler returns an error, abort
+				fmt.Println("[meh][oO] errUnregisterHandler ERROR HANDLING RESPONSE: " + err.Error())
 				doneHandle <- handleResult{nil, err}
 				return errUnregisterHandler
 			} else {
+				fmt.Println("[meh][oO] err ERROR HANDLING RESPONSE: " + err.Error())
 				return err
 			}
 		}
+		fmt.Println("[meh][oO] responses.ErrUnhandled")
 		return responses.ErrUnhandled
 	}))
 
