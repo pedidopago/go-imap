@@ -285,6 +285,22 @@ func (m *Message) Parse(fields []interface{}) error {
 				} else {
 					fmt.Println("[meh][oO] SECTION NAME: " + k)
 					m.Body[section], _ = f.(Literal)
+
+					if buf, _ := f.(*bytes.Buffer); buf != nil {
+						m.BodyStructure = &BodyStructure{
+							Extended: true,
+						}
+
+						parts := []interface{}{
+							buf.String(),
+						}
+
+						if err := m.BodyStructure.Parse(parts); err != nil {
+							fmt.Println("[meh][oO] ERROR PARSING THAT BODYSTRUCTURE: " + err.Error())
+							spew.Dump(parts)
+							return err
+						}
+					}
 				}
 			}
 		}
