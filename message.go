@@ -274,12 +274,16 @@ func (m *Message) Parse(fields []interface{}) error {
 			case FetchUid:
 				m.Uid, _ = ParseNumber(f)
 			default:
+				fmt.Println("[meh][oO] UNKNOWN FETCH FIELD: " + k)
+				spew.Dump(f)
 				// Likely to be a section of the body
 				// First check that the section name is correct
 				if section, err := ParseBodySectionName(k); err != nil {
 					// Not a section name, maybe an attribute defined in an IMAP extension
+					fmt.Println("[meh][oO] NOT A SECTION NAME: " + k)
 					m.Items[k] = f
 				} else {
+					fmt.Println("[meh][oO] SECTION NAME: " + k)
 					m.Body[section], _ = f.(Literal)
 				}
 			}
