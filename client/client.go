@@ -187,6 +187,8 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 	cmd := cmdr.Command()
 	cmd.Tag = generateTag()
 
+	fmt.Println("cmd.Tag = generateTag() " + cmd.Tag)
+
 	var replies <-chan []byte
 	if replier, ok := h.(responses.Replier); ok {
 		replies = replier.Replies()
@@ -253,6 +255,7 @@ func (c *Client) execute(cmdr imap.Commander, h responses.Handler) (*imap.Status
 
 	// Send the command to the server
 	if err := cmd.WriteTo(c.conn.Writer); err != nil {
+		fmt.Println("err := cmd.WriteTo(c.conn.Writer); err != nil Error while sending the command: " + err.Error())
 		// Error while sending the command
 		close(unregister)
 
