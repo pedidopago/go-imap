@@ -403,6 +403,9 @@ func (c *Client) handleUnilateral() {
 		case *imap.DataResp:
 			name, fields, ok := imap.ParseNamedResp(resp)
 			if !ok {
+				fmt.Println("[meh][oO] NOT A NAMED RESPONSE: name, fields, ok := imap.ParseNamedResp(resp) wil lreturn responses.ErrUnhandled")
+				spew.Dump(resp)
+
 				return responses.ErrUnhandled
 			}
 
